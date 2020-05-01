@@ -46,6 +46,9 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_CONF) ./src/etc/config/udptools $(1)/etc/config/udptools
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./src/etc/init.d/udptools $(1)/etc/init.d/udptools
+	$(INSTALL_BIN) ./src/etc/init.d/fixgro $(1)/etc/init.d/fixgro
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) ./src/usr/bin/autorun $(1)/usr/bin/autorun
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
