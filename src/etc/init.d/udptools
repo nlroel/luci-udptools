@@ -21,7 +21,7 @@ run_udp()
 	config_get fec $1 fec  
 	config_get timeout $1 timeout
 	(udpspeeder -c -l$client:$clientport -r127.0.0.1:22333 -f$fec --mode 0 --timeout $timeout  >/dev/null 2>&1 )&
-        (udp2raw -c -l127.0.0.1:22333 -r$server:$serverport --raw-mode faketcp -a -k $password --fix-gro --cipher-mode none --auth-mode none >/dev/null 2>&1 )&
+        (autorun udp2raw -c -l127.0.0.1:22333 -r$server:$serverport --raw-mode faketcp -a -k $password --fix-gro --cipher-mode none --auth-mode none >/dev/null 2>&1 )&
 	ip route add $server via $(ip route | awk '$1=="default" {print $3}')
 }
 
@@ -35,5 +35,6 @@ stop()
 {
     
 	killall -9 udpspeeder
+	ps -ef | grep 'autorun' | grep -v grep | awk '{print $1}' | xargs kill -9
 	killall -9 udp2raw
 }
